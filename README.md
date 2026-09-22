@@ -28,24 +28,6 @@ Generate or update the docs of a module:
 
 `go run github.com/codectl/markparsr/cmd/markparsr generate .`
 
-Check from a Go test, run by CI on every pull request:
-
-```
-func TestReadme(t *testing.T) {
-	v, err := markparsr.New(
-		markparsr.WithModule(".."),
-		markparsr.WithSections("Goals", "Testing", "Notes"),
-		markparsr.WithFiles("GOALS.md", "TESTING.md"),
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := v.Validate(t.Context()); err != nil {
-		t.Fatal(err)
-	}
-}
-```
-
 ## Configuration
 
 `WithModule(dir)`: Module directory; required. Its `README.md` is validated.

@@ -46,23 +46,6 @@ func TestReadme(t *testing.T) {
 }
 ```
 
-A failing check lists every change in words, with README line numbers and
-the fix:
-
-```
-README.md: generated docs out of date; run: markparsr generate .
-line 14: differs:
-  README:  ## Providerss
-  sources: ## Providers
-line 27: in README, not generated from Terraform sources:
-  - - [azurerm_bogus.this](https://example.com) (resource)
-line 32: missing from README, generated from Terraform sources:
-  + - [azurerm_virtual_network.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) (resource)
-line 146: differs:
-  README:  Description: stale text
-  sources: Description: default azure region to be used.
-```
-
 ## Configuration
 
 `WithModule(dir)`: Module directory; required. Its `README.md` is validated.

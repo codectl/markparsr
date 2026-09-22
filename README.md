@@ -24,15 +24,13 @@ Enforce your own conventions: required files, extra sections, live URLs.
 
 ## Usage
 
-See the [examples/](examples/) directory for a sample module and validator test.
-
 Generate or update the docs of a module:
 
 `go run github.com/codectl/markparsr/cmd/markparsr generate .`
 
 Check from a Go test, run by CI on every pull request:
 
-```go
+```
 func TestReadme(t *testing.T) {
 	v, err := markparsr.New(
 		markparsr.WithModule(".."),

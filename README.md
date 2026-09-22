@@ -28,25 +28,6 @@ Generate or update the docs of a module:
 
 `go run github.com/codectl/shapr/cmd/shapr generate .`
 
-Check from a Go test, run by CI on every pull request:
-
-```go
-func TestModule(t *testing.T) {
-	v, err := shapr.New(
-		shapr.WithModule(".."),
-		shapr.WithSections("Goals", "Testing", "Notes"),
-		shapr.WithFiles("GOALS.md", "TESTING.md"),
-		shapr.WithSchema(),
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := v.Validate(t.Context()); err != nil {
-		t.Fatal(err)
-	}
-}
-```
-
 A failing check lists every change in words, with line numbers and the fix:
 
 ```

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/codectl/shapr/compare/v1.0.0...v1.1.0) (2026-09-22)
+
+
+### Features
+
+* rename to shapr and add provider schema check ([#3](https://github.com/codectl/shapr/issues/3)) ([0e758bf](https://github.com/codectl/shapr/commit/0e758bf0626eb61da217536cf4ada44c89e2be23))
+
 ## 1.0.0 (2026-09-22)
 
 

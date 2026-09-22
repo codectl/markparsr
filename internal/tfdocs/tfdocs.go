@@ -13,17 +13,13 @@ import (
 	"github.com/terraform-docs/terraform-docs/terraform"
 )
 
-// Markers delimit the generated block inside a README.
 var (
 	Begin = []byte(print.OutputBeginComment)
 	End   = []byte(print.OutputEndComment)
 )
 
-// ErrNoBlock is returned by Block when the README has no markers.
 var ErrNoBlock = errors.New("readme has no BEGIN_TF_DOCS/END_TF_DOCS markers")
 
-// Render generates the markdown document for the module at dir, with the
-// modules section hidden. Output is byte-identical to the terraform-docs CLI.
 func Render(dir string) ([]byte, error) {
 	cfg := print.DefaultConfig()
 	cfg.ModuleRoot = dir
@@ -52,10 +48,6 @@ func Render(dir string) ([]byte, error) {
 	return []byte(out), nil
 }
 
-// Block returns the content between the markers in readme, excluding the
-// marker lines themselves, such that Block(Inject(r, c)) == c. It returns
-// ErrNoBlock when neither marker is present and a descriptive error when only
-// one is or they are misordered.
 func Block(readme []byte) ([]byte, error) {
 	begin := bytes.Index(readme, Begin)
 	end := bytes.Index(readme, End)
@@ -79,10 +71,6 @@ func Block(readme []byte) ([]byte, error) {
 	return readme[start:end], nil
 }
 
-// Inject returns readme with content placed between the markers, matching the
-// terraform-docs CLI inject mode: an empty readme becomes just the block, a
-// readme without markers gets the block appended, and an existing block is
-// replaced in place.
 func Inject(readme, content []byte) ([]byte, error) {
 	block := wrap(content)
 	if len(readme) == 0 {
@@ -104,7 +92,6 @@ func Inject(readme, content []byte) ([]byte, error) {
 	return out, nil
 }
 
-// wrap surrounds content with the markers exactly as print.OutputTemplate does.
 func wrap(content []byte) []byte {
 	out := make([]byte, 0, len(Begin)+1+len(content)+1+len(End))
 	out = append(out, Begin...)

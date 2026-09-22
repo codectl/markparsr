@@ -43,18 +43,27 @@ Type:
 
 ```hcl
 object({
-    name                    = string
-    resource_group_name     = optional(string)
-    location                = optional(string)
-    address_space           = list(string)
-    tags                    = optional(map(string))
-    edge_zone               = optional(string)
-    bgp_community           = optional(string)
-    flow_timeout_in_minutes = optional(number)
-    dns_servers             = optional(list(string), [])
+    name                           = string
+    resource_group_name            = optional(string)
+    location                       = optional(string)
+    address_space                  = list(string)
+    tags                           = optional(map(string))
+    edge_zone                      = optional(string)
+    bgp_community                  = optional(string)
+    flow_timeout_in_minutes        = optional(number)
+    private_endpoint_vnet_policies = optional(string)
+    dns_servers                    = optional(list(string), [])
     encryption = optional(object({
       enforcement = optional(string, "AllowUnencrypted")
     }))
+    ddos_protection_plan = optional(object({
+      id     = string
+      enable = bool
+    }))
+    ip_address_pools = optional(list(object({
+      id                     = string
+      number_of_ip_addresses = string
+    })), [])
     subnets = optional(map(object({
       name                                          = optional(string)
       address_prefixes                              = list(string)
@@ -63,6 +72,11 @@ object({
       private_endpoint_network_policies             = optional(string, "Disabled")
       default_outbound_access_enabled               = optional(bool)
       service_endpoint_policy_ids                   = optional(list(string))
+      sharing_scope                                 = optional(string)
+      ip_address_pool = optional(object({
+        id                     = string
+        number_of_ip_addresses = string
+      }))
       delegations = optional(map(object({
         name    = string
         actions = optional(list(string), [])
@@ -71,20 +85,22 @@ object({
         name = optional(string)
         tags = optional(map(string))
         rules = optional(map(object({
-          name                         = optional(string)
-          priority                     = number
-          direction                    = string
-          access                       = string
-          protocol                     = string
-          description                  = optional(string, null)
-          source_port_range            = optional(string, null)
-          source_port_ranges           = optional(list(string), null)
-          destination_port_range       = optional(string, null)
-          destination_port_ranges      = optional(list(string), null)
-          source_address_prefix        = optional(string, null)
-          source_address_prefixes      = optional(list(string), null)
-          destination_address_prefix   = optional(string, null)
-          destination_address_prefixes = optional(list(string), null)
+          name                                       = optional(string)
+          priority                                   = number
+          direction                                  = string
+          access                                     = string
+          protocol                                   = string
+          description                                = optional(string, null)
+          source_port_range                          = optional(string, null)
+          source_port_ranges                         = optional(list(string), null)
+          destination_port_range                     = optional(string, null)
+          destination_port_ranges                    = optional(list(string), null)
+          source_address_prefix                      = optional(string, null)
+          source_address_prefixes                    = optional(list(string), null)
+          destination_address_prefix                 = optional(string, null)
+          destination_address_prefixes               = optional(list(string), null)
+          source_application_security_group_ids      = optional(set(string), null)
+          destination_application_security_group_ids = optional(set(string), null)
         })))
       }))
       route_table = optional(object({
@@ -107,20 +123,22 @@ object({
       name = optional(string)
       tags = optional(map(string))
       rules = optional(map(object({
-        name                         = optional(string)
-        priority                     = number
-        direction                    = string
-        access                       = string
-        protocol                     = string
-        description                  = optional(string, null)
-        source_port_range            = optional(string, null)
-        source_port_ranges           = optional(list(string), null)
-        destination_port_range       = optional(string, null)
-        destination_port_ranges      = optional(list(string), null)
-        source_address_prefix        = optional(string, null)
-        source_address_prefixes      = optional(list(string), null)
-        destination_address_prefix   = optional(string, null)
-        destination_address_prefixes = optional(list(string), null)
+        name                                       = optional(string)
+        priority                                   = number
+        direction                                  = string
+        access                                     = string
+        protocol                                   = string
+        description                                = optional(string, null)
+        source_port_range                          = optional(string, null)
+        source_port_ranges                         = optional(list(string), null)
+        destination_port_range                     = optional(string, null)
+        destination_port_ranges                    = optional(list(string), null)
+        source_address_prefix                      = optional(string, null)
+        source_address_prefixes                    = optional(list(string), null)
+        destination_address_prefix                 = optional(string, null)
+        destination_address_prefixes               = optional(list(string), null)
+        source_application_security_group_ids      = optional(set(string), null)
+        destination_application_security_group_ids = optional(set(string), null)
       })))
     })), {})
     route_tables = optional(map(object({

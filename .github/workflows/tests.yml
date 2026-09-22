@@ -16,6 +16,10 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
       - run: test -z "$(gofmt -l .)"
       - run: go vet ./...
       - run: go test -count=1 -race -coverprofile=coverage.out ./...

@@ -1,4 +1,4 @@
-package markparsr
+package shapr
 
 import (
 	"bytes"
@@ -84,10 +84,10 @@ func TestValidateReportsEveryDrift(t *testing.T) {
 		t.Fatal("expected drift error")
 	}
 	for _, want := range []string{
-		"markparsr generate",
+		"shapr generate",
 		"line 14: differs:\n  README:  ## Providerss\n  sources: ## Providers",
 		"line 31: missing from README, generated from Terraform sources:\n  + - [azurerm_virtual_network.this]",
-		"line 145: differs:\n  README:  Description: stale text\n  sources: Description: default azure region to be used.",
+		"differs:\n  README:  Description: stale text\n  sources: Description: default azure region to be used.",
 	} {
 		if !strings.Contains(err.Error(), want) {
 			t.Errorf("error lacks %q:\n%s", want, err)

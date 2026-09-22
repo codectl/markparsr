@@ -1,9 +1,11 @@
-module github.com/codectl/markparsr
+module github.com/codectl/shapr
 
 go 1.25.0
 
 require (
+	github.com/hashicorp/hcl/v2 v2.24.0
 	github.com/terraform-docs/terraform-docs v0.24.0
+	github.com/zclconf/go-cty v1.18.0
 	mvdan.cc/xurls/v2 v2.6.0
 )
 
@@ -20,7 +22,6 @@ require (
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
 	github.com/huandu/xstrings v1.5.0 // indirect
 	github.com/iancoleman/orderedmap v0.3.0 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
@@ -35,7 +36,6 @@ require (
 	github.com/spf13/viper v1.21.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/terraform-docs/terraform-config-inspect v0.0.0-20250408153412-5b88c7ed5b63 // indirect
-	github.com/zclconf/go-cty v1.18.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.49.0 // indirect
 	golang.org/x/mod v0.34.0 // indirect

@@ -3,10 +3,10 @@
 all: fmt document
 
 document:
-	go run github.com/codectl/markparsr/cmd/markparsr@latest generate .
+	go run github.com/codectl/shapr/cmd/shapr generate .
 
 check:
-	go run github.com/codectl/markparsr/cmd/markparsr@latest check .
+	go run github.com/codectl/shapr/cmd/shapr check .
 
 fmt:
 	terraform fmt -recursive

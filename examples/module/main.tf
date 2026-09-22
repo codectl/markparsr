@@ -8,16 +8,33 @@ resource "azurerm_virtual_network" "this" {
     var.config.resource_group_name, var.resource_group_name
   )
 
-  name                    = var.config.name
-  address_space           = var.config.address_space
-  edge_zone               = var.config.edge_zone
-  bgp_community           = var.config.bgp_community
-  flow_timeout_in_minutes = var.config.flow_timeout_in_minutes
+  name                           = var.config.name
+  address_space                  = var.config.address_space
+  edge_zone                      = var.config.edge_zone
+  bgp_community                  = var.config.bgp_community
+  flow_timeout_in_minutes        = var.config.flow_timeout_in_minutes
+  private_endpoint_vnet_policies = var.config.private_endpoint_vnet_policies
 
   dynamic "encryption" {
     for_each = var.config.encryption != null ? [var.config.encryption] : []
     content {
       enforcement = encryption.value.enforcement
+    }
+  }
+
+  dynamic "ddos_protection_plan" {
+    for_each = var.config.ddos_protection_plan != null ? [var.config.ddos_protection_plan] : []
+    content {
+      id     = ddos_protection_plan.value.id
+      enable = ddos_protection_plan.value.enable
+    }
+  }
+
+  dynamic "ip_address_pool" {
+    for_each = var.config.ip_address_pools
+    content {
+      id                     = ip_address_pool.value.id
+      number_of_ip_addresses = ip_address_pool.value.number_of_ip_addresses
     }
   }
 
@@ -59,6 +76,15 @@ resource "azurerm_subnet" "this" {
   private_endpoint_network_policies             = each.value.private_endpoint_network_policies
   service_endpoint_policy_ids                   = each.value.service_endpoint_policy_ids
   default_outbound_access_enabled               = each.value.default_outbound_access_enabled
+  sharing_scope                                 = each.value.sharing_scope
+
+  dynamic "ip_address_pool" {
+    for_each = each.value.ip_address_pool != null ? [each.value.ip_address_pool] : []
+    content {
+      id                     = ip_address_pool.value.id
+      number_of_ip_addresses = ip_address_pool.value.number_of_ip_addresses
+    }
+  }
 
   dynamic "delegation" {
     for_each = each.value.delegations != null ? each.value.delegations : {}
@@ -145,22 +171,24 @@ resource "azurerm_network_security_rule" "this" {
     }
   )
 
-  name                         = each.value.rule_name
-  priority                     = each.value.rule.priority
-  direction                    = each.value.rule.direction
-  access                       = each.value.rule.access
-  protocol                     = each.value.rule.protocol
-  source_port_range            = each.value.rule.source_port_range
-  source_port_ranges           = each.value.rule.source_port_ranges
-  destination_port_range       = each.value.rule.destination_port_range
-  destination_port_ranges      = each.value.rule.destination_port_ranges
-  source_address_prefix        = each.value.rule.source_address_prefix
-  source_address_prefixes      = each.value.rule.source_address_prefixes
-  destination_address_prefix   = each.value.rule.destination_address_prefix
-  destination_address_prefixes = each.value.rule.destination_address_prefixes
-  description                  = each.value.rule.description
-  resource_group_name          = var.config.resource_group_name
-  network_security_group_name  = each.value.nsg_name
+  name                                       = each.value.rule_name
+  priority                                   = each.value.rule.priority
+  direction                                  = each.value.rule.direction
+  access                                     = each.value.rule.access
+  protocol                                   = each.value.rule.protocol
+  source_port_range                          = each.value.rule.source_port_range
+  source_port_ranges                         = each.value.rule.source_port_ranges
+  destination_port_range                     = each.value.rule.destination_port_range
+  destination_port_ranges                    = each.value.rule.destination_port_ranges
+  source_address_prefix                      = each.value.rule.source_address_prefix
+  source_address_prefixes                    = each.value.rule.source_address_prefixes
+  destination_address_prefix                 = each.value.rule.destination_address_prefix
+  destination_address_prefixes               = each.value.rule.destination_address_prefixes
+  source_application_security_group_ids      = each.value.rule.source_application_security_group_ids
+  destination_application_security_group_ids = each.value.rule.destination_application_security_group_ids
+  description                                = each.value.rule.description
+  resource_group_name                        = var.config.resource_group_name
+  network_security_group_name                = each.value.nsg_name
 }
 
 # nsg associations
